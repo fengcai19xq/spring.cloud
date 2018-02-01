@@ -1,0 +1,36 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    prefer-ip-address: true
+    statusPageUrlPath: /sleuth-zipkin/info
+server:
+  port: 5555
+spring:
+  application:
+     name: sleuth-zipkin
+  sleuth: 
+     sampler: 
+#spring.sleuth.sampler.percentage的采样率是0.1
+        percentage: 1       
+     enabled: false
+  datasource:
+    name: zipkin
+    driver-class-name:  com.mysql.jdbc.Driver
+    url: jdbc:mysql://10.0.2.11:3306/interest_shared?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false
+    username: ua_inshared_dev
+    password: wqwFglyku1NQ
+    schema: classpath:/zipkin.sql
+    initialize: true
+    continue-on-error: true
+#  cloud: 
+#     stream: 
+#        kafka: 
+#          binder: 
+#            brokers: 
+#            zkNodes: 
+zipkin:
+  storage:
+    type: mysql
